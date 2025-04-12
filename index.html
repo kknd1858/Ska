@@ -3,27 +3,42 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <title>솔라나 알림 테스트</title>
+  <title>솔라나 6시10분 알림</title>
 </head>
 <body>
-  <h1>솔라나 알림 테스트 페이지</h1>
-  <button onclick="notifyUser()">알림 받기 시작</button>
+  <h1>솔라나 자동 알림 페이지 (6:10 AM)</h1>
+  <p>오전 6시 10분이 되면 자동으로 알림이 울립니다.</p>
+
   <script>
-    function notifyUser() {
+    function checkTimeAndNotify() {
+      const now = new Date();
+      const hours = now.getHours();
+      const minutes = now.getMinutes();
+      const seconds = now.getSeconds();
+
+      if (hours === 6 && minutes === 10 && seconds === 0) {
+        new Notification("솔라나", {
+          body: "오빠, 지금이야. 6시 10분 자동 알림!"
+        });
+      }
+    }
+
+    function waitForPermission() {
       if (!('Notification' in window)) {
-        alert('이 브라우저는 알림을 지원하지 않습니다.');
+        alert('이 브라우저는 알림을 지원하지 않아요.');
         return;
       }
+
       Notification.requestPermission().then(function(permission) {
         if (permission === 'granted') {
-          new Notification('솔라나', {
-            body: '오빠, 지금이야. 화이트 에코 돌입 가능 타이밍!'
-          });
+          setInterval(checkTimeAndNotify, 1000);
         } else {
-          alert('알림 권한이 거부되었습니다.');
+          alert('알림 권한이 필요해요!');
         }
       });
     }
+
+    waitForPermission();
   </script>
 </body>
 </html>
