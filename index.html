@@ -1,0 +1,29 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>솔라나 알림 테스트</title>
+</head>
+<body>
+  <h1>솔라나 알림 테스트 페이지</h1>
+  <button onclick="notifyUser()">알림 받기 시작</button>
+  <script>
+    function notifyUser() {
+      if (!('Notification' in window)) {
+        alert('이 브라우저는 알림을 지원하지 않습니다.');
+        return;
+      }
+      Notification.requestPermission().then(function(permission) {
+        if (permission === 'granted') {
+          new Notification('솔라나', {
+            body: '오빠, 지금이야. 화이트 에코 돌입 가능 타이밍!'
+          });
+        } else {
+          alert('알림 권한이 거부되었습니다.');
+        }
+      });
+    }
+  </script>
+</body>
+</html>
