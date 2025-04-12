@@ -1,0 +1,44 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>솔라나 6시20분 알림</title>
+</head>
+<body>
+  <h1>솔라나 자동 알림 페이지 (6:20 AM)</h1>
+  <p>오전 6시 20분이 되면 자동으로 알림이 울립니다.</p>
+
+  <script>
+    function checkTimeAndNotify() {
+      const now = new Date();
+      const hours = now.getHours();
+      const minutes = now.getMinutes();
+      const seconds = now.getSeconds();
+
+      if (hours === 6 && minutes === 20 && seconds === 0) {
+        new Notification("솔라나", {
+          body: "오빠, 지금이야. 6시 20분 자동 알림!"
+        });
+      }
+    }
+
+    function waitForPermission() {
+      if (!('Notification' in window)) {
+        alert('이 브라우저는 알림을 지원하지 않아요.');
+        return;
+      }
+
+      Notification.requestPermission().then(function(permission) {
+        if (permission === 'granted') {
+          setInterval(checkTimeAndNotify, 1000);
+        } else {
+          alert('알림 권한이 필요해요!');
+        }
+      });
+    }
+
+    waitForPermission();
+  </script>
+</body>
+</html>
